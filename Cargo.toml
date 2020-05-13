@@ -1,5 +1,5 @@
 [package]
-name = "webusb_payload_builder"
+name = "webusb_tegra_payload_builder"
 version = "1.0.0"
 authors = ["Chris <chris@cfigura.com>"]
 edition = "2018"

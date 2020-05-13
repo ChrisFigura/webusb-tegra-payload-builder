@@ -2,15 +2,17 @@ use structopt::StructOpt;
 use std::path::PathBuf;
 use std::fs;
 
+/// The struct for managing the arguments passed to the program.
 #[derive(StructOpt)]
+#[structopt(name = "WebUSB Tegra Payload Builder", about = "Builds payloads for use in WebUSB from binary files")]
 struct Args {
-    #[structopt(parse(from_os_str))]
+    #[structopt(parse(from_os_str), help = "The path to the input file")]
     path: PathBuf,
 
-    #[structopt(short = "n", long = "name")]
+    #[structopt(short = "n", long = "name", help = "The name of the const in the generated js file")]
     name: Option<String>,
 
-    #[structopt(short = "o", long = "output")]
+    #[structopt(short = "o", long = "output", help = "The path to the output file, stdout if not specified")]
     output: Option<PathBuf>
 }
 
@@ -55,7 +57,7 @@ fn main() {
         Some(ref output) => match fs::write(output, &result) {
             // If it was successful, do nothing.
             Ok(_) => (),
-            
+
             // If there was an error writing to the file, exit with a nonzero status code.
             Err(error) => {
                 eprintln!("\x1b[1;31merror: \x1b[0;m{}", error); 

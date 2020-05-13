@@ -207,7 +207,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "078775d0255232fb988e6fccf26ddc9d1ac274299aaedcedce21c6f72cc533ce"
 
 [[package]]
-name = "webusb_payload_builder"
+name = "webusb_tegra_payload_builder"
 version = "1.0.0"
 dependencies = [
  "structopt",
