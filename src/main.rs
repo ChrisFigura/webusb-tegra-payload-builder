@@ -46,6 +46,12 @@ fn main() {
         bytes.push_str(format!("0x{:02x?}, ", byte).as_str());
     }
 
+    // If the file was empty, exit with a nonzero status code.
+    if bytes.len() == 0 {
+        eprintln!("\x1b[1;31merror: \x1b[0;mInput file was empty");
+        std::process::exit(1);
+    }
+
     // Format the bytes into the js const.
     let result = format!("const {} = new Uint8Array([{}]);\n", &name, &bytes[..bytes.len() - 2]);
 
