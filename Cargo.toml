@@ -1,0 +1,10 @@
+[package]
+name = "webusb_payload_builder"
+version = "1.0.0"
+authors = ["Chris <chris@cfigura.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+structopt = "0.3.13"
