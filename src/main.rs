@@ -1,19 +1,30 @@
-use structopt::StructOpt;
-use std::path::PathBuf;
 use std::fs;
+use std::path::PathBuf;
+use structopt::StructOpt;
 
 /// The struct for managing the arguments passed to the program.
 #[derive(StructOpt)]
-#[structopt(name = "WebUSB Tegra Payload Builder", about = "Builds payloads for use in WebUSB from binary files")]
+#[structopt(
+    name = "WebUSB Tegra Payload Builder",
+    about = "Builds payloads for use in WebUSB from binary files"
+)]
 struct Args {
     #[structopt(parse(from_os_str), help = "The path to the input file")]
     path: PathBuf,
 
-    #[structopt(short = "n", long = "name", help = "The name of the const in the generated js file")]
+    #[structopt(
+        short = "n",
+        long = "name",
+        help = "The name of the const in the generated js file"
+    )]
     name: Option<String>,
 
-    #[structopt(short = "o", long = "output", help = "The path to the output file, stdout if not specified")]
-    output: Option<PathBuf>
+    #[structopt(
+        short = "o",
+        long = "output",
+        help = "The path to the output file, stdout if not specified"
+    )]
+    output: Option<PathBuf>,
 }
 
 fn main() {
@@ -27,7 +38,7 @@ fn main() {
 
         // If there was an error, exit with a nonzero status code.
         Err(error) => {
-            eprintln!("\x1b[1;31merror: \x1b[0;m{}", error); 
+            eprintln!("\x1b[1;31merror: \x1b[0;m{}", error);
             std::process::exit(1);
         }
     };
@@ -35,7 +46,7 @@ fn main() {
     // Get the name for the js variable.
     let name = match argv.name {
         None => "payload",
-        Some(ref name) => name
+        Some(ref name) => name,
     };
 
     // Create a string for storing the bytes.
@@ -53,12 +64,17 @@ fn main() {
     }
 
     // Format the bytes into the js const.
-    let result = format!("const {} = new Uint8Array([{}]);\n", &name, &bytes[..bytes.len() - 2]);
+    let result = format!(
+        "const {} = new Uint8Array([{}]);\n",
+        &name,
+        &bytes[..bytes.len() - 2]
+    );
 
     // Print or output the resulting string.
     match argv.output {
         // If no output was specified, print it to stdout.
         None => print!("{}", &result),
+
         // If an output was specified, try to write it to the file.
         Some(ref output) => match fs::write(output, &result) {
             // If it was successful, do nothing.
@@ -66,9 +82,9 @@ fn main() {
 
             // If there was an error writing to the file, exit with a nonzero status code.
             Err(error) => {
-                eprintln!("\x1b[1;31merror: \x1b[0;m{}", error); 
+                eprintln!("\x1b[1;31merror: \x1b[0;m{}", error);
                 std::process::exit(1);
-            }
-        }
+            },
+        },
     };
 }
